@@ -39,4 +39,10 @@ Criar uma aplicação web simples para consumo pessoal que permita assistir cana
 
 ## 📁 Estrutura
 ```
-- Criação de documentação inicial
+- // 📁 ESTRUTURA FINAL DO PROJETO
+// =========================
+// /project
+//   ├── index.html
+//   ├── styles.css
+//   ├── script.js
+//   └── channels.js
