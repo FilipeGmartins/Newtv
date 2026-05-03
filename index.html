@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minha TV Online</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <h1>📺 Minha TV</h1>
+  </header>
+
+  <main class="container" id="channel-list">
+    <!-- Canais serão renderizados via JS -->
+  </main>
+
+  <!-- Modal Player -->
+  <div id="player-modal" class="modal hidden">
+    <div class="modal-content">
+      <button id="close-btn">✖</button>
+      <iframe id="player" src="" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-presentation"></iframe>
+    </div>
+  </div>
+
+  <script src="channels.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
