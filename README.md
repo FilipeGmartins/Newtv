@@ -1,36 +1,8 @@
 # Newtv
 Este softwere tem como base facilitar o streaming de canais de tv sendo o uso do mesmo pessoal. Fica terminantemente proibido sua monetização 
 
-// 📁 ESTRUTURA FINAL DO PROJETO
-// =========================
-// /project
-//   ├── index.html
-//   ├── styles.css
-//   ├── script.js
-//   └── channels.js
 
 
-// =========================
-// 🧠 MELHORIA APLICADA (VIBE DEV)
-// =========================
-// - Separação clara de responsabilidades
-// - Funções reutilizáveis (SOLID)
-// - channels.js como fonte única de dados
-// - Código preparado para escalar (ex: API futura)
-
-
-// =========================
-// 🚀 PRÓXIMO PASSO SUGERIDO
-// =========================
-// - Criar /docs (PRODUCT.md, ARCHITECTURE.md)
-// - Adicionar busca de canais
-// - Adicionar categorias
-// - Persistência (localStorage)
-
-
-// =========================
-// FILE: /docs/PRODUCT.md
-// =========================
 # 📺 Produto: Minha TV Online
 
 ## 🎯 Objetivo
