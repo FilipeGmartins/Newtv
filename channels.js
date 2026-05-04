@@ -54,5 +54,70 @@ const channels = [
     image: "https://via.placeholder.com/300x150?text=TNT+Champions+League",
     link: "https://embedcanaisdetv.xyz/e/index.php?canal=tnt" 
   },
-
+{
+    name: "ESPN",
+    image: "https://via.placeholder.com/300x150?text=ESPN",
+    link: "https://embedcanaisdetv.xyz/e/index.php?canal=espn" 
+  },
+  {
+    name: "ESPN 2",
+    image: "https://via.placeholder.com/300x150?text=ESPN+2",
+    link: "https://embedcanaisdetv.xyz/e/index.php?canal=espn2" 
+  },
+  {
+    name: "ESPN 3",
+    image: "https://via.placeholder.com/300x150?text=ESPN+3",
+    link: "https://embedcanaisdetv.xyz/e/index.php?canal=espn3" 
+  },
+  {
+    name: "ESPN 4",
+    image: "https://via.placeholder.com/300x150?text=ESPN+4",
+    link: "https://embedcanaisdetv.xyz/e/index.php?canal=espn4" 
+  },
+  {
+    name: "ESPN 5",
+    image: "https://via.placeholder.com/300x150?text=ESPN+5",
+    link: "https://embedcanaisdetv.xyz/e/index.php?canal=espn5" 
+  },
+  {
+    name: "ESPN 6",
+    image: "https://via.placeholder.com/300x150?text=ESPN+6",
+    link: "https://embedcanaisdetv.xyz/e/index.php?canal=espn6" 
+  },
+  {
+    name: "XSPORTS",
+    image: "https://via.placeholder.com/300x150?text=XSPORTS",
+    link: "https://embedcanaisdetv.xyz/e/index.php?canal=xsports" 
+  },
+  {
+    name: "Canal Max",
+    image: "https://via.placeholder.com/300x150?text=Canal+Max",
+    link: "https://embedcanaisdetv.xyz/e/index.php?canal=max" 
+  },
+  {
+    name: "Canal Max 2",
+    image: "https://via.placeholder.com/300x150?text=Canal+Max+2",
+    link: "https://embedcanaisdetv.xyz/e/index.php?canal=max02" 
+  },
+  {
+    name: "Canal Max 3",
+    image: "https://via.placeholder.com/300x150?text=Canal+Max+3",
+    link: "https://embedcanaisdetv.xyz/e/index.php?canal=max03" 
+  },
+  {
+    name: "Canal Max 4",
+    image: "https://via.placeholder.com/300x150?text=Canal+Max+4",
+    link: "https://embedcanaisdetv.xyz/e/index.php?canal=max04" 
+  },
+  {
+    name: "Canal Max 5",
+    image: "https://via.placeholder.com/300x150?text=Canal+Max+5",
+    link: "https://embedcanaisdetv.xyz/e/index.php?canal=max05" 
+  },
+  {
+    name: "Canal Max 6",
+    image: "https://via.placeholder.com/300x150?text=Canal+Max+6",
+    link: "https://embedcanaisdetv.xyz/e/index.php?canal=max06" 
+  },
 ];
+
