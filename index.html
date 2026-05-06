@@ -8,7 +8,8 @@
 </head>
 <body>
   <header class="header">
-    <h1>📺 Minha TV</h1>
+    <h1>📺 NewTV Sports</h1>
+    <p>Assista aos melhores canais esportivos online</p>
   </header>
 
   <main class="container" id="channel-list">
@@ -18,12 +19,24 @@
   <!-- Modal Player -->
   <div id="player-modal" class="modal hidden">
     <div class="modal-content">
-      <button id="close-btn">✖</button>
+      <div class="modal-header">
+        <div class="channel-title" id="current-channel-title">Canal</div>
+        <button id="close-btn" title="Fechar player">✖</button>
+      </div>
       <iframe id="player" src="" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-presentation"></iframe>
+      <div class="modal-controls">
+        <button id="prev-channel" title="Canal anterior">⬅️ Anterior</button>
+        <button id="next-channel" title="Próximo canal">Próximo ➡️</button>
+      </div>
     </div>
   </div>
 
+  <script src="logos.js"></script>
   <script src="channels.js"></script>
   <script src="script.js"></script>
+
+  <footer style="text-align: center; padding: 2rem; color: var(--text-secondary); font-size: 0.9rem;">
+    <p>© 2024 NewTV Sports - Todos os direitos reservados</p>
+  </footer>
 </body>
 </html>
