@@ -11,4 +11,8 @@ export default defineConfig({
   redirects: {
     "/": "/channels",
   },
+  prefetch: {
+    defaultStrategy: "tap",
+    prefetchAll: true,
+  },
 });

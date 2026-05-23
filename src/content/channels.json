@@ -1,0 +1,30 @@
+[
+  {
+    "name": "espn",
+    "slug": "espn",
+    "displayName": "ESPN",
+    "category": "Esporte",
+    "description": "Um canal de esportes que oferece cobertura em tempo real de partidas de futebol, basquete, e outros esportes.",
+    "imageUrl": "https://logos-world.net/wp-content/uploads/2020/12/ESPN-Logo-1985-present.jpg",
+    "players": [
+      {
+        "url": "https://embedcanaisdetv.xyz/e/index.php?canal=espn",
+        "source": "embedcanaisdetv"
+      }
+    ]
+  },
+  {
+    "name": "disney-plus",
+    "slug": "disney-plus",
+    "displayName": "Disney+",
+    "category": "Entretenimento",
+    "description": "Um canal de entretenimento que oferece acesso a uma variedade de filmes e séries.",
+    "imageUrl": "https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/25357066/Disney__Logo_March_2024.png",
+    "players": [
+      {
+        "url": "https://embedcanaisdetv.xyz/e/index.php?canal=disneyplus",
+        "source": "embedcanaisdetv"
+      }
+    ]
+  }
+]
