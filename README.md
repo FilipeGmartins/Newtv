@@ -1,48 +1,43 @@
-# Newtv
-Este softwere tem como base facilitar o streaming de canais de tv sendo o uso do mesmo pessoal. Fica terminantemente proibido sua monetização 
+# Astro Starter Kit: Minimal
 
-
-
-# 📺 Produto: Minha TV Online
-
-## 🎯 Objetivo
-Criar uma aplicação web simples para consumo pessoal que permita assistir canais de TV via streaming embutido.
-
-## 👤 Usuário-alvo
-- Uso pessoal
-- Acesso rápido a canais favoritos
-
-## 🧩 Funcionalidades
-### MVP (Atual)
-- Listagem de canais
-- Botão "Assistir agora"
-- Player em modal
-
-### Backlog
-- 🔍 Busca de canais
-- 📂 Categorias (Esportes, Filmes, etc.)
-- ⭐ Favoritos (localStorage)
-- 🕓 Histórico de visualização
-- 🎬 Fullscreen aprimorado
-
-## ✅ Definição de Pronto (DoD)
-- Código organizado (SOLID)
-- Responsivo (mobile-first)
-- Separação de responsabilidades
-- Atualização de documentação
-
-
-// =========================
-// FILE: /docs/ARCHITECTURE.md
-// =========================
-# 🏗️ Arquitetura do Sistema
-
-## 📁 Estrutura
+```sh
+pnpm create astro@latest -- --template minimal
 ```
-- // 📁 ESTRUTURA FINAL DO PROJETO
-// =========================
-// /project
-//   ├── index.html
-//   ├── styles.css
-//   ├── script.js
-//   └── channels.js
+
+> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+
+## 🚀 Project Structure
+
+Inside of your Astro project, you'll see the following folders and files:
+
+```text
+/
+├── public/
+├── src/
+│   └── pages/
+│       └── index.astro
+└── package.json
+```
+
+Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+
+There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+
+Any static assets, like images, can be placed in the `public/` directory.
+
+## 🧞 Commands
+
+All commands are run from the root of the project, from a terminal:
+
+| Command                   | Action                                           |
+| :------------------------ | :----------------------------------------------- |
+| `pnpm install`             | Installs dependencies                            |
+| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
+| `pnpm build`           | Build your production site to `./dist/`          |
+| `pnpm preview`         | Preview your build locally, before deploying     |
+| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
+| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+
+## 👀 Want to learn more?
+
+Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).

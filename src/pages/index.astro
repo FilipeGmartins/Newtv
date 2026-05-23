@@ -1,0 +1,597 @@
+---
+
+---
+
+<!doctype html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Minha TV Online</title>
+    </head>
+    <body>
+        <header class="header">
+            <h1>📺 NewTV Sports</h1>
+            <p>Assista aos melhores canais esportivos online</p>
+        </header>
+
+        <main class="container" id="channel-list">
+            <!-- Canais serão renderizados via JS -->
+        </main>
+
+        <!-- Modal Player -->
+        <div id="player-modal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="channel-title" id="current-channel-title">
+                        Canal
+                    </div>
+                    <button id="close-btn" title="Fechar player">✖</button>
+                </div>
+                <iframe
+                    id="player"
+                    src=""
+                    frameborder="0"
+                    allowfullscreen
+                    sandbox="allow-same-origin allow-scripts allow-presentation"
+                ></iframe>
+                <div class="modal-controls">
+                    <button id="prev-channel" title="Canal anterior"
+                        >⬅️ Anterior</button
+                    >
+                    <button id="next-channel" title="Próximo canal"
+                        >Próximo ➡️</button
+                    >
+                </div>
+            </div>
+        </div>
+
+        <footer
+            style="text-align: center; padding: 2rem; color: var(--text-secondary); font-size: 0.9rem;"
+        >
+            <p>© 2024 NewTV Sports - Todos os direitos reservados</p>
+        </footer>
+    </body>
+</html>
+
+<style>
+    :root {
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --secondary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --dark-bg: #0f0f23;
+        --card-bg: #1a1a2e;
+        --text-primary: #ffffff;
+        --text-secondary: #b8c5d6;
+        --accent: #667eea;
+        --accent-hover: #5a67d8;
+        --glass-bg: rgba(26, 26, 46, 0.8);
+        --glass-border: rgba(255, 255, 255, 0.08);
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(
+            135deg,
+            #0f0f23 0%,
+            #1a1a2e 50%,
+            #16213e 100%
+        );
+        color: var(--text-primary);
+        line-height: 1.6;
+        min-height: 100vh;
+    }
+
+    .header {
+        text-align: left;
+        padding: 2rem 2rem 2rem 3rem;
+        background: rgba(15, 15, 35, 0.3);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .header h1 {
+        margin: 0;
+        font-size: 2.2rem;
+        font-weight: 700;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        position: relative;
+        z-index: 1;
+        color: var(--text-primary);
+    }
+
+    .header p {
+        margin: 0.5rem 0 0 0;
+        opacity: 0.8;
+        font-size: 1rem;
+        color: var(--text-secondary);
+        font-weight: 400;
+    }
+
+    @media (max-width: 768px) {
+        .header {
+            padding: 1.5rem 1rem 1.5rem 1.5rem;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+        }
+
+        .header p {
+            font-size: 0.9rem;
+        }
+    }
+
+    .container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1.5rem;
+        padding: 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1rem;
+            padding: 1rem;
+        }
+    }
+
+    .channel-card {
+        background: rgba(26, 26, 46, 0.8);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+        position: relative;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .channel-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+            135deg,
+            rgba(102, 126, 234, 0.1) 0%,
+            rgba(118, 75, 162, 0.1) 100%
+        );
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 1;
+    }
+
+    .channel-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+
+    .channel-card:hover::before {
+        opacity: 0.1;
+    }
+
+    .channel-card img {
+        width: 100%;
+        height: 140px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .channel-card:hover img {
+        transform: scale(1.05);
+    }
+
+    .channel-info {
+        padding: 1.2rem;
+        text-align: center;
+        position: relative;
+        z-index: 2;
+        background: linear-gradient(to top, rgba(30, 41, 59, 0.9), transparent);
+    }
+
+    .channel-info h3 {
+        margin: 0 0 0.5rem 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    @media (max-width: 768px) {
+        .channel-info h3 {
+            font-size: 1rem;
+        }
+    }
+
+    /* Modal com Glassmorphism */
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(15, 15, 35, 0.85);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        animation: fadeIn 0.3s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .modal-content {
+        position: relative;
+        width: 95%;
+        max-width: 900px;
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 1.5rem;
+        background: rgba(15, 15, 35, 0.6);
+        border-bottom: 1px solid var(--glass-border);
+    }
+
+    .channel-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin: 0;
+    }
+
+    #close-btn {
+        background: rgba(239, 68, 68, 0.9);
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.2rem;
+        font-weight: bold;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        transition: all 0.2s ease;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #close-btn:hover {
+        background: rgba(220, 38, 38, 0.9);
+        transform: scale(1.1);
+    }
+
+    .modal-content iframe {
+        width: 100%;
+        height: 500px;
+        border: none;
+        border-radius: 0;
+    }
+
+    .modal-controls {
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem 1.5rem;
+        background: rgba(15, 15, 35, 0.6);
+        border-top: 1px solid var(--glass-border);
+    }
+
+    .modal-controls button {
+        background: var(--primary-gradient);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-controls button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-controls button:active {
+        transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+        .modal-header {
+            padding: 0.8rem 1rem;
+        }
+
+        .channel-title {
+            font-size: 1rem;
+        }
+
+        #close-btn {
+            width: 36px;
+            height: 36px;
+            font-size: 1rem;
+        }
+
+        .modal-controls {
+            padding: 0.8rem 1rem;
+        }
+
+        .modal-controls button {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+        }
+    }
+
+    /* Footer */
+    footer {
+        text-align: center;
+        padding: 2rem 1rem;
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        margin-top: 2rem;
+        background: rgba(15, 15, 35, 0.3);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+
+    footer p {
+        margin: 0;
+        opacity: 0.6;
+    }
+</style>
+
+<script>
+    const channels = [
+        {
+            name: "Premiere",
+            link: "https://embedcanaisdetv.xyz/e/index.php?canal=premiereclubes",
+        },
+        {
+            name: "SportTV",
+            link: "https://embedcanaisdetv.xyz/e/index.php?canal=sportv",
+        },
+        {
+            name: "Premiere 2",
+            link: "https://embedcanaisdetv.xyz/e/index.php?canal=premiere2",
+        },
+        {
+            name: "Premiere 3",
+            link: "https://embedcanaisdetv.xyz/e/index.php?canal=premiere3",
+        },
+        {
+            name: "Globo",
+            link: "https://embedcanaisdetv.xyz/e/index.php?canal=globosp",
+        },
+        {
+            name: "Premiere 4",
+            link: "https://embedcanaisdetv.xyz/e/index.php?canal=premiere4",
+        },
+        {
+            name: "Premiere 5",
+            link: "https://embedcanaisdetv.xyz/e/index.php?canal=premiere5",
+        },
+        {
+            name: "Premiere 6",
+            link: "https://embedcanaisdetv.xyz/e/index.php?canal=premiere6",
+        },
+        {
+            name: "Premiere 7",
+            link: "https://embedcanaisdetv.xyz/e/index.php?canal=premiere7",
+        },
+        {
+            name: "Premiere 8",
+            link: "https://embedcanaisdetv.xyz/e/index.php?canal=premiere8",
+        },
+        {
+            name: "TNT(Champions League)",
+            link: "https://embedcanaisdetv.xyz/e/index.php?canal=tnt",
+        },
+        {
+            name: "ESPN",
+            link: "https://embedcanaisdetv.xyz/e/index.php?canal=espn",
+        },
+        {
+            name: "ESPN 2",
+            link: "https://embedcanaisdetv.xyz/e/index.php?canal=espn2",
+        },
+        {
+            name: "ESPN 3",
+            link: "https://embedcanaisdetv.xyz/e/index.php?canal=espn3",
+        },
+        {
+            name: "ESPN 4",
+            link: "https://embedcanaisdetv.xyz/e/index.php?canal=espn4",
+        },
+        {
+            name: "ESPN 5",
+            link: "https://embedcanaisdetv.xyz/e/index.php?canal=espn5",
+        },
+        {
+            name: "ESPN 6",
+            link: "https://embedcanaisdetv.xyz/e/index.php?canal=espn6",
+        },
+        {
+            name: "XSPORTS",
+            link: "https://embedcanaisdetv.xyz/e/index.php?canal=xsports",
+        },
+        {
+            name: "Canal Max",
+            link: "https://embedcanaisdetv.xyz/e/index.php?canal=max",
+        },
+        {
+            name: "Canal Max 2",
+            link: "https://embedcanaisdetv.xyz/e/index.php?canal=max02",
+        },
+        {
+            name: "Canal Max 3",
+            link: "https://embedcanaisdetv.xyz/e/index.php?canal=max03",
+        },
+        {
+            name: "Canal Max 4",
+            link: "https://embedcanaisdetv.xyz/e/index.php?canal=max04",
+        },
+        {
+            name: "Canal Max 5",
+            link: "https://embedcanaisdetv.xyz/e/index.php?canal=max05",
+        },
+        {
+            name: "Canal Max 6",
+            link: "https://embedcanaisdetv.xyz/e/index.php?canal=max06",
+        },
+    ];
+
+    const logos = {
+        Premiere: "img/premiere-br.webp",
+        SportTV: "img/sportv.webp",
+        "Premiere 2": "img/premiere-br.webp",
+        "Premiere 3": "img/premiere-br.webp",
+        Globo: "img/globo.webp",
+        "Premiere 4": "img/premiere-br.webp",
+        "Premiere 5": "img/premiere-br.webp",
+        "Premiere 6": "img/premiere-br.webp",
+        "Premiere 7": "img/premiere-br.webp",
+        "Premiere 8": "img/premiere-br.webp",
+        "TNT(Champions League)": "img/tnt-br.webp",
+        ESPN: "img/espn.webp",
+        "ESPN 2": "img/espn.webp",
+        "ESPN 3": "img/espn.webp",
+        "ESPN 4": "img/espn-4-br.webp",
+        "ESPN 5": "img/espn-5.webp",
+        "ESPN 6": "img/espn.webp",
+        XSPORTS: "img/xsports.webp",
+        "Canal Max": "img/max-icon.webp",
+        "Canal Max 2": "img/max-icon.webp",
+        "Canal Max 3": "img/max-icon.webp",
+        "Canal Max 4": "img/max-icon.webp",
+        "Canal Max 5": "img/max-icon.webp",
+        "Canal Max 6": "img/max-icon.webp",
+    };
+
+    // Função para obter a logo de um canal
+    function getLogoByChannelName(channelName) {
+        return logos[channelName] || "img/padrao.webp";
+    }
+
+    // =========================
+    // FILE: script.js
+    // =========================
+    const container = document.getElementById("channel-list");
+    const modal = document.getElementById("player-modal");
+    const player = document.getElementById("player");
+    const closeBtn = document.getElementById("close-btn");
+    const channelTitle = document.getElementById("current-channel-title");
+    const prevChannelBtn = document.getElementById("prev-channel");
+    const nextChannelBtn = document.getElementById("next-channel");
+
+    let currentChannelIndex = -1;
+
+    function openPlayer(link, channelName, index) {
+        player.src = link;
+        modal.classList.remove("hidden");
+
+        if (channelName) {
+            channelTitle.textContent = channelName;
+            currentChannelIndex = index;
+        }
+
+        const fullscreenTarget = player;
+        if (fullscreenTarget.requestFullscreen) {
+            fullscreenTarget.requestFullscreen().catch(() => {
+                if (modal.requestFullscreen) {
+                    modal.requestFullscreen().catch(() => {
+                        console.warn("Fullscreen não pôde ser ativado.");
+                    });
+                }
+            });
+        }
+    }
+
+    function navigateChannel(direction) {
+        if (currentChannelIndex === -1) return;
+
+        let newIndex = currentChannelIndex + direction;
+
+        if (newIndex < 0) {
+            newIndex = channels.length - 1;
+        } else if (newIndex >= channels.length) {
+            newIndex = 0;
+        }
+
+        const channel = channels[newIndex];
+        openPlayer(channel.link, channel.name, newIndex);
+    }
+
+    function renderChannels() {
+        channels.forEach((channel, index) => {
+            const card = document.createElement("div");
+            card.classList.add("channel-card");
+
+            const logo = getLogoByChannelName(channel.name);
+
+            card.innerHTML = `
+      <img src="${logo}" alt="${channel.name}" loading="lazy" />
+      <div class="channel-info">
+        <h3>${channel.name}</h3>
+      </div>
+    `;
+
+            card.addEventListener("click", () =>
+                openPlayer(channel.link, channel.name, index),
+            );
+
+            container.appendChild(card);
+        });
+    }
+
+    closeBtn.addEventListener("click", () => {
+        modal.classList.add("hidden");
+        player.src = "";
+        currentChannelIndex = -1;
+        if (document.fullscreenElement) {
+            document.exitFullscreen().catch(() => {});
+        }
+    });
+
+    prevChannelBtn.addEventListener("click", () => navigateChannel(-1));
+    nextChannelBtn.addEventListener("click", () => navigateChannel(1));
+
+    renderChannels();
+</script>
