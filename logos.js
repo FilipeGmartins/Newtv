@@ -7,6 +7,8 @@
 const logos = {
   "Premiere": "img/premiere-br.webp",
   "SportTV": "img/sportv.webp",
+  "SportTV 2": "img/sportv.webp",
+  "SportTV 3": "img/sportv.webp",
   "Premiere 2": "img/premiere-br.webp",
   "Premiere 3": "img/premiere-br.webp",
   "Globo": "img/globo.webp",
@@ -29,6 +31,13 @@ const logos = {
   "Canal Max 4": "img/max-icon.webp",
   "Canal Max 5": "img/max-icon.webp",
   "Canal Max 6": "img/max-icon.webp",
+  "Combate": "img/combate.webp",
+  "DAZN": "img/dazn.webp",
+  "Prime Video 1": "img/primevideo.webp",
+  "Prime Video 2": "img/primevideo.webp",
+  "Prime Video 3": "img/primevideo.webp",
+  "BandSports": "img/bandsports.webp",
+  "Todo Mundo Odeia o Chris24H": "img/24h_odeiachris.webp"
 };
 
 // Função para obter a logo de um canal

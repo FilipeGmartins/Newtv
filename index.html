@@ -7,26 +7,35 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <a class="skip-link" href="#channel-list">Pular para a lista de canais</a>
+
   <header class="header">
-    <h1>📺 NewTV Sports</h1>
-    <p>Assista aos melhores canais esportivos online</p>
+    <div class="header-top">
+      <div>
+        <h1>📺 NewTV Sports</h1>
+        <p>Assista aos melhores canais esportivos online</p>
+      </div>
+      <button id="toggle-view" aria-pressed="false" class="view-toggle-btn">
+        Visualização em coluna
+      </button>
+    </div>
   </header>
 
-  <main class="container" id="channel-list">
+  <main class="container" id="channel-list" aria-live="polite">
     <!-- Canais serão renderizados via JS -->
   </main>
 
   <!-- Modal Player -->
-  <div id="player-modal" class="modal hidden">
+  <div id="player-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="current-channel-title" aria-hidden="true">
     <div class="modal-content">
       <div class="modal-header">
         <div class="channel-title" id="current-channel-title">Canal</div>
-        <button id="close-btn" title="Fechar player">✖</button>
+        <button id="close-btn" title="Fechar player" aria-label="Fechar player">✖</button>
       </div>
       <iframe id="player" src="" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-presentation"></iframe>
       <div class="modal-controls">
-        <button id="prev-channel" title="Canal anterior">⬅️ Anterior</button>
-        <button id="next-channel" title="Próximo canal">Próximo ➡️</button>
+        <button id="prev-channel" title="Canal anterior" aria-label="Canal anterior">⬅️ Anterior</button>
+        <button id="next-channel" title="Próximo canal" aria-label="Próximo canal">Próximo ➡️</button>
       </div>
     </div>
   </div>

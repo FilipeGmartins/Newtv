@@ -10,12 +10,14 @@ const closeBtn = document.getElementById("close-btn");
 const channelTitle = document.getElementById("current-channel-title");
 const prevChannelBtn = document.getElementById("prev-channel");
 const nextChannelBtn = document.getElementById("next-channel");
+const toggleViewBtn = document.getElementById("toggle-view");
 
 let currentChannelIndex = -1;
 
 function openPlayer(link, channelName, index) {
   player.src = link;
   modal.classList.remove("hidden");
+  modal.setAttribute("aria-hidden", "false");
 
   if (channelName) {
     channelTitle.textContent = channelName;
@@ -53,6 +55,9 @@ function renderChannels() {
   channels.forEach((channel, index) => {
     const card = document.createElement("div");
     card.classList.add("channel-card");
+    card.setAttribute("tabindex", "0");
+    card.setAttribute("role", "button");
+    card.setAttribute("aria-label", `Assistir ${channel.name}`);
 
     const logo = getLogoByChannelName(channel.name);
 
@@ -64,6 +69,12 @@ function renderChannels() {
     `;
 
     card.addEventListener("click", () => openPlayer(channel.link, channel.name, index));
+    card.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openPlayer(channel.link, channel.name, index);
+      }
+    });
 
     container.appendChild(card);
   });
@@ -71,11 +82,18 @@ function renderChannels() {
 
 closeBtn.addEventListener("click", () => {
   modal.classList.add("hidden");
+  modal.setAttribute("aria-hidden", "true");
   player.src = "";
   currentChannelIndex = -1;
   if (document.fullscreenElement) {
     document.exitFullscreen().catch(() => {});
   }
+});
+
+toggleViewBtn.addEventListener("click", () => {
+  const isColumn = container.classList.toggle("column-view");
+  toggleViewBtn.textContent = isColumn ? "Visualização em grade" : "Visualização em coluna";
+  toggleViewBtn.setAttribute("aria-pressed", String(isColumn));
 });
 
 prevChannelBtn.addEventListener("click", () => navigateChannel(-1));
