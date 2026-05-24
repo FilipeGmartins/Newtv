@@ -14,10 +14,6 @@ export default defineConfig({
   redirects: {
     "/": "/channels",
   },
-  prefetch: {
-    defaultStrategy: "tap",
-    prefetchAll: true,
-  },
   env: {
     schema: {
       EVENTS_API_URL: envField.string({ context: "server", access: "public" }),

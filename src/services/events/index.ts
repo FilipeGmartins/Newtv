@@ -1,5 +1,5 @@
+import type { SportByIdResponse, SportsResponse } from "@/models/events";
 import { EVENTS_API_URL } from "astro:env/server";
-import type { SportByIdResponse, SportsResponse } from "./interfaces";
 
 export async function getLiveEvents(): Promise<SportsResponse> {
   const baseUrl = EVENTS_API_URL;

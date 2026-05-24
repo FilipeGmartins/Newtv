@@ -1,6 +1,7 @@
 ---
-import BaseLayout from "@layouts/BaseLayout.astro";
+import PlayersLayout from "@layouts/PlayersLayout.astro";
 import { getEventById } from "@/services/events";
+import type { RawEmbed } from "@/models/embeds";
 
 export const prerender = false;
 
@@ -12,34 +13,14 @@ if (!id) {
 
 const event = await getEventById(id);
 const { data } = event;
-const { embeds } = data;
+const { embeds: players } = data;
+
+const embeds: RawEmbed[] = players.map((player) => {
+    return {
+        url: player.embed_url,
+        source: player.provider,
+    };
+});
 ---
 
-<BaseLayout>
-    <div class="tabs tabs-box h-screen">
-        {
-            embeds.map(({ embed_url, provider }, index) => (
-                <Fragment>
-                    <input
-                        type="radio"
-                        name="channel-tab"
-                        class="tab"
-                        aria-label={`Player ${index + 1} (${provider})`}
-                        checked={index === 0}
-                    />
-                    <div class="tab-content bg-base-100 border-base-300">
-                        <iframe
-                            src={embed_url}
-                            allow="autoplay; fullscreen; encrypted-media"
-                            class="size-full"
-                            title={`${provider} - Player ${index + 1}`}
-                            loading="lazy"
-                            referrerpolicy="no-referrer"
-                            style="border: none;"
-                        />
-                    </div>
-                </Fragment>
-            ))
-        }
-    </div>
-</BaseLayout>
+<PlayersLayout embeds={embeds} enableSandbox={false} />

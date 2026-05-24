@@ -2,11 +2,6 @@
 import SportGameGridItem from "./SportGameGridItem.astro";
 import { getLiveEvents } from "@/services/events";
 
-await new Promise((resolve) => {
-    setTimeout(() => {
-        resolve();
-    }, 5000);
-});
 const { data: games } = await getLiveEvents();
 ---
 

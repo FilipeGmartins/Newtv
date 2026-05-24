@@ -1,11 +1,20 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import NavBar from "@components/NavBar.astro";
+
+interface Props {
+    className?: string;
+    removePadding?: boolean;
+}
+
+const { className, removePadding } = Astro.props;
+
+const paddingClass = removePadding ? "" : "p-4 px-10";
 ---
 
 <BaseLayout>
     <NavBar />
-    <main class="p-4 px-10">
+    <main class:list={[paddingClass, className]}>
         <slot />
     </main>
 </BaseLayout>
