@@ -1,7 +1,10 @@
 ---
 import MainPageLayout from "@layouts/MainPageLayout.astro";
+import SportGamesGrid from "@components/SportGamesGrid.astro";
 ---
 
-<MainPageLayout selectedTab="games">
-    <h1>Em breve</h1>
+<MainPageLayout>
+    <SportGamesGrid server:defer>
+        <div slot="fallback" class="skeleton h-32 w-32"></div>
+    </SportGamesGrid>
 </MainPageLayout>

@@ -1,0 +1,45 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getEventById } from "@/services/events";
+
+export const prerender = false;
+
+const { id } = Astro.params;
+if (!id) {
+    Astro.rewrite("/games");
+    return;
+}
+
+const event = await getEventById(id);
+const { data } = event;
+const { embeds } = data;
+---
+
+<BaseLayout>
+    <div class="tabs tabs-box h-screen">
+        {
+            embeds.map(({ embed_url, provider }, index) => (
+                <Fragment>
+                    <input
+                        type="radio"
+                        name="channel-tab"
+                        class="tab"
+                        aria-label={`Player ${index + 1} (${provider})`}
+                        checked={index === 0}
+                    />
+                    <div class="tab-content bg-base-100 border-base-300">
+                        <iframe
+                            src={embed_url}
+                            allow="autoplay; fullscreen; encrypted-media"
+                            class="size-full"
+                            title={`${provider} - Player ${index + 1}`}
+                            loading="lazy"
+                            referrerpolicy="no-referrer"
+                            style="border: none;"
+                        />
+                    </div>
+                </Fragment>
+            ))
+        }
+    </div>
+</BaseLayout>

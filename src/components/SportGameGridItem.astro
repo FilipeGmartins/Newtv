@@ -1,0 +1,41 @@
+---
+import type { SportGame } from "@/services/events/interfaces";
+import { Image } from "astro:assets";
+
+interface Props {
+    game: SportGame;
+}
+
+const { game } = Astro.props;
+const { id, title, description, start_time, status, embeds, poster } = game;
+---
+
+<a href={`/live/${id}`}>
+    <div
+        class="card bg-base-100 transition-shadow shadow-sm group hover:shadow-lg"
+    >
+        {
+            game.poster && (
+                <Image
+                    src={poster}
+                    alt={`game-${id}-poster`}
+                    width={300}
+                    height={100}
+                    class="w-full h-52 object-cover rounded-t-lg"
+                />
+            )
+        }
+        <div class="card-body">
+            <h2 class="card-title">{title}</h2>
+            <p class="text-sm text-gray-600">{description}</p>
+            <p class="text-xs text-gray-500">{start_time}</p>
+            <div class="flex gap-2 items-center">
+                <div class="badge badge-primary">{status}</div>
+                <div class="text-xs">{embeds.length} streams</div>
+            </div>
+            <div class="card-actions justify-end">
+                <button class="btn btn-link">Assistir</button>
+            </div>
+        </div>
+    </div>
+</a>

@@ -1,0 +1,15 @@
+---
+import SportGameGridItem from "./SportGameGridItem.astro";
+import { getLiveEvents } from "@/services/events";
+
+await new Promise((resolve) => {
+    setTimeout(() => {
+        resolve();
+    }, 5000);
+});
+const { data: games } = await getLiveEvents();
+---
+
+<div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+    {games.map((game) => <SportGameGridItem game={game} />)}
+</div>

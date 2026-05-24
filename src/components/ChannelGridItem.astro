@@ -16,15 +16,13 @@ const { slug, displayName, description, imageUrl } = data.data;
     >
         {
             imageUrl && (
-                <div>
-                    <Image
-                        src={imageUrl}
-                        alt={`channel-${slug}-image`}
-                        width={300}
-                        height={100}
-                        class="w-full h-52 object-cover rounded-t-lg"
-                    />
-                </div>
+                <Image
+                    src={imageUrl}
+                    alt={`channel-${slug}-image`}
+                    width={300}
+                    height={100}
+                    class="w-full h-52 object-cover rounded-t-lg"
+                />
             )
         }
         <div class="card-body">
