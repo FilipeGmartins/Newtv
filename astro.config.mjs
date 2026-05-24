@@ -1,10 +1,13 @@
 // @ts-check
-import { defineConfig } from "astro/config";
+import { defineConfig, envField } from "astro/config";
 
 import tailwindcss from "@tailwindcss/vite";
 
+import cloudflare from "@astrojs/cloudflare";
+
 // https://astro.build/config
 export default defineConfig({
+  adapter: cloudflare(),
   vite: {
     plugins: [tailwindcss()],
   },
@@ -14,5 +17,10 @@ export default defineConfig({
   prefetch: {
     defaultStrategy: "tap",
     prefetchAll: true,
+  },
+  env: {
+    schema: {
+      EVENTS_API_URL: envField.string({ context: "server", access: "public" }),
+    },
   },
 });
