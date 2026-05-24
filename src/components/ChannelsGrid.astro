@@ -1,34 +1,10 @@
 ---
 import { getCollection } from "astro:content";
-import { Image } from "astro:assets";
+import ChannelGridItem from "./ChannelGridItem.astro";
 
 const channels = await getCollection("channels");
 ---
 
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-    {
-        channels.map(({ data }) => {
-            const { displayName, description, imageUrl, slug } = data;
-
-            return (
-                <div class="card bg-base-100 shadow-sm">
-                    {imageUrl && (
-                        <Image
-                            src={imageUrl}
-                            alt={`channel-${slug}-image`}
-                            width={300}
-                            height={100}
-                            class="w-full object-cover rounded-t-lg"
-                        />
-                    )}
-                    <div class="card bg-base-100 card-lg">
-                        <div class="card-body">
-                            <h2 class="card-title">{displayName}</h2>
-                            <p class="text-sm text-">{description}</p>
-                        </div>
-                    </div>
-                </div>
-            );
-        })
-    }
+    {channels.map((channel) => <ChannelGridItem data={channel} />)}
 </div>

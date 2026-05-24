@@ -1,0 +1,47 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import type { GetStaticPaths } from "astro";
+import { getCollection } from "astro:content";
+
+export const getStaticPaths = (async () => {
+    const channels = await getCollection("channels");
+
+    return channels.map((channel) => ({
+        params: { slug: channel.data.slug },
+        props: { channel },
+    }));
+}) satisfies GetStaticPaths;
+
+const { channel } = Astro.props;
+const { slug, players } = channel.data;
+---
+
+<BaseLayout>
+    <div class="tabs tabs-box h-screen">
+        {
+            players.map((player, index) => (
+                <Fragment>
+                    <input
+                        type="radio"
+                        name="channel-tab"
+                        class="tab"
+                        aria-label={`Player ${index + 1} (${player.source})`}
+                        checked={index === 0}
+                    />
+                    <div class="tab-content bg-base-100 border-base-300">
+                        <iframe
+                            src={`/api/proxy/${slug}/${index + 1}`}
+                            allow="autoplay; fullscreen; encrypted-media"
+                            class="size-full"
+                            title={`${channel.data.displayName} - Player ${index + 1}`}
+                            loading="lazy"
+                            referrerpolicy="no-referrer"
+                            sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-popups-to-escape-sandbox"
+                            style="border: none;"
+                        />
+                    </div>
+                </Fragment>
+            ))
+        }
+    </div>
+</BaseLayout>

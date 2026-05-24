@@ -10,6 +10,14 @@
       {
         "url": "https://embedcanaisdetv.xyz/e/index.php?canal=espn",
         "source": "embedcanaisdetv"
+      },
+      {
+        "url": "https://rdcanais.com/espn",
+        "source": "rdcanais"
+      },
+      {
+        "url": "https://ww2.embedtv.lat/espn",
+        "source": "embedcanais"
       }
     ]
   },
@@ -24,6 +32,14 @@
       {
         "url": "https://embedcanaisdetv.xyz/e/index.php?canal=disneyplus",
         "source": "embedcanaisdetv"
+      },
+      {
+        "url": "https://rdcanais.com/disney",
+        "source": "rdcanais"
+      },
+      {
+        "url": "https://reidoscanais.ooo/disneyplus",
+        "source": "reidoscanais"
       }
     ]
   }
