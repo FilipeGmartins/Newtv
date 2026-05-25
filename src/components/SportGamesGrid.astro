@@ -1,19 +1,43 @@
 ---
-import type { SportGameStatus } from "@/models/events";
-import SportGameGridItem from "./SportGameGridItem.astro";
+import type { EventStatus } from "@/models/events";
 import { getEvents } from "@/services/events";
+import GridItem from "./GridItem.astro";
 
 interface Props {
-    status: SportGameStatus;
+    status: EventStatus;
 }
 
 const { status } = Astro.props;
+const liveEventsBaseUrl = "/live";
 
 const { data: games } = await getEvents(status);
 const isEmpty = games.length === 0;
 ---
 
 <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-    {games.map((game) => <SportGameGridItem game={game} />)}
+    {
+        games.map((game) => {
+            const {
+                title,
+                description,
+                status,
+                start_time,
+                embeds,
+                poster,
+                id,
+            } = game;
+            return (
+                <GridItem
+                    title={title}
+                    description={description}
+                    eventStatus={status}
+                    startDate={start_time}
+                    playersCount={embeds.length}
+                    imageSrc={poster}
+                    href={`${liveEventsBaseUrl}/${id}`}
+                />
+            );
+        })
+    }
     {isEmpty && <p>Nenhum jogo encontrado.</p>}
 </div>

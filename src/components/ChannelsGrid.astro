@@ -1,10 +1,26 @@
 ---
+import GridItem from "./GridItem.astro";
 import { getCollection } from "astro:content";
-import ChannelGridItem from "./ChannelGridItem.astro";
 
 const channels = await getCollection("channels");
+const channelsBaseUrl = "/channels";
 ---
 
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-    {channels.map((channel) => <ChannelGridItem data={channel} />)}
+    {
+        channels.map((channel) => {
+            const { data } = channel;
+            const { name, description, imageUrl, players, displayName, slug } =
+                data;
+            return (
+                <GridItem
+                    title={displayName ?? name}
+                    description={description}
+                    imageSrc={imageUrl}
+                    playersCount={players.length}
+                    href={`${channelsBaseUrl}/${slug}`}
+                />
+            );
+        })
+    }
 </div>

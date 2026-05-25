@@ -1,12 +1,12 @@
 import type {
   SportByIdResponse,
-  SportGameStatus,
+  EventStatus,
   SportsResponse,
 } from "@/models/events";
 import { EVENTS_API_URL } from "astro:env/server";
 
 export async function getEvents(
-  status: SportGameStatus,
+  status: EventStatus,
 ): Promise<SportsResponse> {
   const baseUrl = EVENTS_API_URL;
   console.log(baseUrl);

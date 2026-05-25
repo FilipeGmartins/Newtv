@@ -1,14 +1,14 @@
 ---
 import MainPageLayout from "@layouts/MainPageLayout.astro";
 import SportGamesGrid from "@components/SportGamesGrid.astro";
-import SportGamesGridLoading from "@components/SportGamesGridLoading.astro";
+import GridItemLoading from "@components/GridItemLoading.astro";
 ---
 
 <MainPageLayout className="flex flex-col gap-4">
     <h1 class="text-2xl font-black">Ao vivo</h1>
     <SportGamesGrid server:defer status="live">
         <Fragment slot="fallback">
-            <SportGamesGridLoading />
+            <GridItemLoading />
         </Fragment>
     </SportGamesGrid>
     <h1 class="text-2xl font-black">Próximos</h1>
@@ -16,7 +16,7 @@ import SportGamesGridLoading from "@components/SportGamesGridLoading.astro";
     <h1 class="text-2xl font-black">Encerrados</h1>
     <SportGamesGrid server:defer status="finished">
         <Fragment slot="fallback">
-            <SportGamesGridLoading />
+            <GridItemLoading />
         </Fragment>
     </SportGamesGrid>
 </MainPageLayout>

@@ -1,4 +1,4 @@
-export type SportGameStatus = "scheduled" | "live" | "finished";
+export type EventStatus = "scheduled" | "live" | "finished";
 
 export interface SportEmbed {
   provider: string;
@@ -13,7 +13,7 @@ export interface SportGame {
   poster: string;
   start_time: string;
   end_time: string;
-  status: SportGameStatus;
+  status: EventStatus;
   category: string;
   embeds: SportEmbed[];
 }
