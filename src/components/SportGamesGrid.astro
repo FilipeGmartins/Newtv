@@ -1,10 +1,19 @@
 ---
+import type { SportGameStatus } from "@/models/events";
 import SportGameGridItem from "./SportGameGridItem.astro";
-import { getLiveEvents } from "@/services/events";
+import { getEvents } from "@/services/events";
 
-const { data: games } = await getLiveEvents();
+interface Props {
+    status: SportGameStatus;
+}
+
+const { status } = Astro.props;
+
+const { data: games } = await getEvents(status);
+const isEmpty = games.length === 0;
 ---
 
 <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
     {games.map((game) => <SportGameGridItem game={game} />)}
+    {isEmpty && <p>Nenhum jogo encontrado.</p>}
 </div>

@@ -1,3 +1,5 @@
+export type SportGameStatus = "scheduled" | "live" | "finished";
+
 export interface SportEmbed {
   provider: string;
   quality: string;
@@ -11,7 +13,7 @@ export interface SportGame {
   poster: string;
   start_time: string;
   end_time: string;
-  status: "live" | "scheduled" | "finished";
+  status: SportGameStatus;
   category: string;
   embeds: SportEmbed[];
 }

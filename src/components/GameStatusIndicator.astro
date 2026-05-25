@@ -1,0 +1,39 @@
+---
+import type { SportGameStatus } from "@/models/events";
+
+interface Props {
+    status: SportGameStatus;
+    className?: string;
+}
+
+const { status, className } = Astro.props;
+
+let statusText = undefined;
+let badgeVariant = undefined;
+switch (status) {
+    case "scheduled":
+        statusText = "Em breve";
+        badgeVariant = "badge-info";
+        break;
+    case "live":
+        statusText = "Ao vivo";
+        badgeVariant = "badge-secondary";
+        break;
+    case "finished":
+        statusText = "Finalizado";
+        badgeVariant = "badge-neutral";
+        break;
+}
+---
+
+<div class:list={["badge", badgeVariant, className]}>
+    {
+        status === "live" && (
+            <div class="inline-grid *:[grid-area:1/1]">
+                <div class="status status-secondary animate-ping" />
+                <div class="status status-secondary" />
+            </div>
+        )
+    }
+    {statusText}
+</div>

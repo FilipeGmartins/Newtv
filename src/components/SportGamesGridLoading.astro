@@ -1,0 +1,11 @@
+---
+
+---
+
+<div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+    {
+        Array.from({ length: 6 }).map((_) => (
+            <div slot="fallback" class="skeleton w-full h-80" />
+        ))
+    }
+</div>

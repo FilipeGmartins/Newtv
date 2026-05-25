@@ -1,6 +1,8 @@
 ---
-import type { SportGame } from "@/services/events/interfaces";
+import GameStatusIndicator from "@components/GameStatusIndicator.astro";
+import type { SportGame } from "@/models/events";
 import { Image } from "astro:assets";
+import { CalendarClockIcon, CirclePlayIcon } from "@lucide/astro";
 
 interface Props {
     game: SportGame;
@@ -8,32 +10,48 @@ interface Props {
 
 const { game } = Astro.props;
 const { id, title, description, start_time, status, embeds, poster } = game;
+const formattedStartTime = new Date(start_time).toLocaleString();
 ---
 
 <a href={`/live/${id}`}>
     <div
-        class="card bg-base-100 transition-shadow shadow-sm group hover:shadow-lg"
+        class="card bg-base-100 transition-shadow w-full shadow-sm group indicator hover:shadow-lg"
     >
+        <GameStatusIndicator status={status} className="indicator-item" />
         {
             game.poster && (
-                <Image
-                    src={poster}
-                    alt={`game-${id}-poster`}
-                    width={300}
-                    height={100}
-                    class="w-full h-52 object-cover rounded-t-lg"
-                />
+                <div class="relative w-full h-52 overflow-clip rounded-t-lg">
+                    <Image
+                        src={poster}
+                        alt={`game-${id}-bg`}
+                        width={50}
+                        height={50}
+                        class="object-cover size-full blur-lg absolute z-0"
+                    />
+                    <Image
+                        src={poster}
+                        alt={`game-${id}-poster`}
+                        width={300}
+                        height={100}
+                        class="object-scale-down z-10 size-full absolute"
+                    />
+                </div>
             )
         }
         <div class="card-body">
             <h2 class="card-title">{title}</h2>
-            <p class="text-sm text-gray-600">{description}</p>
-            <p class="text-xs text-gray-500">{start_time}</p>
-            <div class="flex gap-2 items-center">
-                <div class="badge badge-primary">{status}</div>
-                <div class="text-xs">{embeds.length} streams</div>
+            <div class="flex items-center justify-between gap-4">
+                <p class="text-sm text-gray-600">{description}</p>
+                <div class="flex gap-1 items-center">
+                    <CalendarClockIcon size={14} class="text-gray-500" />
+                    <p class="text-xs text-gray-500">{formattedStartTime}</p>
+                </div>
             </div>
-            <div class="card-actions justify-end">
+            <div class="card-actions justify-between items-center">
+                <div class="flex gap-1 items-center">
+                    <CirclePlayIcon size={16} class="text-gray-500" />
+                    <p>{embeds.length} players</p>
+                </div>
                 <button class="btn btn-link">Assistir</button>
             </div>
         </div>
