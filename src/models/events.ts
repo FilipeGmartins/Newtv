@@ -1,4 +1,4 @@
-export type EventStatus = "scheduled" | "live" | "finished";
+export type EventStatus = "upcoming" | "live" | "finished";
 
 export interface SportEmbed {
   provider: string;

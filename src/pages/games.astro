@@ -12,7 +12,11 @@ import GridItemLoading from "@components/GridItemLoading.astro";
         </Fragment>
     </SportGamesGrid>
     <h1 class="text-2xl font-black">Próximos</h1>
-    <p>Em breve</p>
+    <SportGamesGrid server:defer status="upcoming">
+        <Fragment slot="fallback">
+            <GridItemLoading />
+        </Fragment>
+    </SportGamesGrid>
     <h1 class="text-2xl font-black">Encerrados</h1>
     <SportGamesGrid server:defer status="finished">
         <Fragment slot="fallback">
