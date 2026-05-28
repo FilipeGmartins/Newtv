@@ -5,11 +5,8 @@ import type {
 } from "@/models/events";
 import { EVENTS_API_URL } from "astro:env/server";
 
-export async function getEvents(
-  status: EventStatus,
-): Promise<SportsResponse> {
+export async function getEvents(status: EventStatus): Promise<SportsResponse> {
   const baseUrl = EVENTS_API_URL;
-  console.log(baseUrl);
   const response = await fetch(
     `${baseUrl}/sports?category=Futebol&status=${status}`,
   );

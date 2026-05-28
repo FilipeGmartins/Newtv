@@ -13,7 +13,6 @@ export const GET: APIRoute = async ({ props }) => {
       },
     });
   } catch (error) {
-    console.log(error);
     if (error instanceof Error)
       return new Response("Proxy error: " + error.message, { status: 500 });
     return new Response("Proxy error", { status: 500 });
