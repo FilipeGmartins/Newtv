@@ -14,6 +14,9 @@ export default defineConfig({
   redirects: {
     "/": "/channels",
   },
+  image: {
+    remotePatterns: [{ protocol: "https" }],
+  },
   env: {
     schema: {
       EVENTS_API_URL: envField.string({ context: "server", access: "public" }),

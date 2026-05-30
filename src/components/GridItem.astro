@@ -36,7 +36,7 @@ const formattedStartTime = startDate
             eventStatus && (
                 <EventStatusIndicator
                     status={eventStatus}
-                    className="indicator-item indicator-center"
+                    className="indicator-item indicator-center z-20"
                 />
             )
         }
@@ -46,8 +46,8 @@ const formattedStartTime = startDate
                     <Image
                         src={imageSrc}
                         alt={`${title} background`}
-                        width={50}
-                        height={50}
+                        width={10}
+                        height={10}
                         class="object-cover size-full blur-lg absolute z-0"
                     />
                     <Image
@@ -55,7 +55,7 @@ const formattedStartTime = startDate
                         alt={`${title}`}
                         width={300}
                         height={100}
-                        class="object-scale-down z-10 size-full absolute"
+                        class="object-contain z-10 size-full absolute"
                     />
                 </div>
             )
