@@ -1,0 +1,94 @@
+---
+import type { EventStatus } from "@/models/events";
+import EventStatusIndicator from "@components/EventStatusIndicator.astro";
+import { CalendarClockIcon, CirclePlayIcon } from "@lucide/astro";
+import { Image } from "astro:assets";
+
+interface Props {
+    title: string;
+    description?: string;
+    startDate?: Date | string;
+    eventStatus?: EventStatus;
+    imageSrc?: string;
+    playersCount?: number;
+    href: string;
+}
+
+const {
+    title,
+    description,
+    startDate,
+    eventStatus,
+    imageSrc,
+    playersCount,
+    href,
+} = Astro.props;
+const formattedStartTime = startDate
+    ? new Date(startDate).toLocaleDateString()
+    : undefined;
+---
+
+<a href={href}>
+    <div
+        class="card bg-base-100 transition-shadow w-full h-100 shadow-sm group indicator hover:shadow-lg"
+    >
+        {
+            eventStatus && (
+                <EventStatusIndicator
+                    status={eventStatus}
+                    className="indicator-item indicator-center z-20"
+                />
+            )
+        }
+        {
+            imageSrc && (
+                <div class="relative size-full overflow-clip rounded-t-lg">
+                    <Image
+                        src={imageSrc}
+                        alt={`${title} background`}
+                        width={10}
+                        height={10}
+                        class="object-cover size-full blur-lg absolute z-0"
+                    />
+                    <Image
+                        src={imageSrc}
+                        alt={`${title}`}
+                        width={1920}
+                        height={1080}
+                        class="object-contain z-10 size-full absolute"
+                    />
+                </div>
+            )
+        }
+        <div class="card-body">
+            <h2 class="card-title">{title}</h2>
+            <div class="flex items-center justify-between gap-4">
+                { description && (
+
+                <p class="text-sm text-gray-600">{description}</p>
+                ) }
+                <div class="flex gap-1 items-center">
+                    {
+                    formattedStartTime && (
+                    <CalendarClockIcon size={14} class="text-gray-500" />
+                    <p class="text-xs text-gray-500">
+                        {formattedStartTime}
+                    </p>
+                    )
+                    }
+                </div>
+            </div>
+            <div class="card-actions justify-between items-center">
+                <div class="flex gap-1 items-center">
+                    {
+                    playersCount && (
+                    <CirclePlayIcon size={16} class="text-gray-500" />
+                    <p>{playersCount} players</p>
+                    )
+                    }
+                </div>
+                <button class="btn btn-link">Assistir</button>
+            </div>
+        </div>
+    </div>
+</a>

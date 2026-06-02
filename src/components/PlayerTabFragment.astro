@@ -1,0 +1,56 @@
+---
+import type { ProxiedEmbed, RawEmbed } from "@/models/embeds";
+
+type ProxyEmbedPlayer = {
+    useProxy: true;
+    embed: ProxiedEmbed;
+    proxyBaseUrl: string;
+};
+
+type RawEmbedPlayer = {
+    useProxy: false;
+    embed: RawEmbed;
+};
+
+type Props = (ProxyEmbedPlayer | RawEmbedPlayer) & {
+    index: number;
+    enableSandbox?: boolean;
+};
+
+const props = Astro.props;
+const { embed, index, enableSandbox = true } = props;
+
+const useProxy = typeof props.useProxy === "boolean" && props.useProxy;
+
+const proxyBaseUrl = useProxy ? props.proxyBaseUrl : undefined;
+const resolvedProxyEmbed = useProxy ? props.embed : undefined;
+const resolvedEmbedUrl = !useProxy ? props.embed.url : undefined;
+
+const src =
+    useProxy && resolvedProxyEmbed
+        ? `${proxyBaseUrl}/${resolvedProxyEmbed.slug}/${resolvedProxyEmbed.index}`
+        : resolvedEmbedUrl;
+const title = `${embed.source} - Player ${index}`;
+---
+
+<Fragment>
+    <input
+        type="radio"
+        name="channel-tab"
+        class="tab"
+        aria-label={`Player ${index}`}
+    />
+    <div class="tab-content bg-base-100 border-base-300">
+        <iframe
+            src={src}
+            allow="autoplay; fullscreen; encrypted-media"
+            class="size-full"
+            title={title}
+            loading="lazy"
+            referrerpolicy="no-referrer"
+            sandbox={enableSandbox
+                ? "allow-same-origin allow-scripts allow-popups allow-forms allow-popups-to-escape-sandbox"
+                : undefined}
+            style="border: none;"></iframe>
+    </div>
+</Fragment>

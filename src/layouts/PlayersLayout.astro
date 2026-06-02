@@ -1,0 +1,47 @@
+---
+import type { ProxiedEmbed, RawEmbed } from "@/models/embeds";
+import PageLayout from "./PageLayout.astro";
+import PlayerTabFragment from "@components/PlayerTabFragment.astro";
+
+interface Props {
+    embeds: ProxiedEmbed[] | RawEmbed[];
+    enableSandbox?: boolean;
+}
+
+const proxyBaseUrl = "/api/proxy";
+
+function isRawEmbed(embed: ProxiedEmbed | RawEmbed): embed is RawEmbed {
+    return "url" in embed;
+}
+
+const { embeds, enableSandbox = true } = Astro.props as Props;
+---
+
+<PageLayout removePadding>
+    <div class="tabs tabs-box h-screen">
+        {
+            embeds.map((player, index) => {
+                if (isRawEmbed(player)) {
+                    return (
+                        <PlayerTabFragment
+                            index={index}
+                            useProxy={false}
+                            embed={player}
+                            enableSandbox={enableSandbox}
+                        />
+                    );
+                }
+
+                return (
+                    <PlayerTabFragment
+                        useProxy={true}
+                        embed={player}
+                        index={index}
+                        proxyBaseUrl={proxyBaseUrl}
+                        enableSandbox={enableSandbox}
+                    />
+                );
+            })
+        }
+    </div>
+</PageLayout>

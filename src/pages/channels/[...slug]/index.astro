@@ -1,0 +1,19 @@
+---
+import PlayersLayout from "@/layouts/PlayersLayout.astro";
+import type { GetStaticPaths } from "astro";
+import { getCollection } from "astro:content";
+
+export const getStaticPaths = (async () => {
+    const channels = await getCollection("channels");
+
+    return channels.map((channel) => ({
+        params: { slug: channel.data.slug },
+        props: { channel },
+    }));
+}) satisfies GetStaticPaths;
+
+const { channel } = Astro.props;
+const { players } = channel.data;
+---
+
+<PlayersLayout embeds={players} />

@@ -1,0 +1,26 @@
+---
+import PlayersLayout from "@layouts/PlayersLayout.astro";
+import { getEventById } from "@/services/events";
+import type { RawEmbed } from "@/models/embeds";
+
+export const prerender = false;
+
+const { id } = Astro.params;
+if (!id) {
+    Astro.rewrite("/games");
+    return;
+}
+
+const event = await getEventById(id);
+const { data } = event;
+const { embeds: players } = data;
+
+const embeds: RawEmbed[] = players.map((player) => {
+    return {
+        url: player.embed_url,
+        source: player.provider,
+    };
+});
+---
+
+<PlayersLayout embeds={embeds} enableSandbox={false} />

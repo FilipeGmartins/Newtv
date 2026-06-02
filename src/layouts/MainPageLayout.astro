@@ -1,0 +1,13 @@
+---
+import PageLayout from "./PageLayout.astro";
+
+interface Props {
+    className?: string;
+}
+
+const { className } = Astro.props;
+---
+
+<PageLayout className={className}>
+    <slot />
+</PageLayout>
