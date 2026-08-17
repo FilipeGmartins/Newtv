@@ -19,7 +19,11 @@ export default defineConfig({
   },
   env: {
     schema: {
-      EVENTS_API_URL: envField.string({ context: "server", access: "public" }),
+      EVENTS_API_URL: envField.string({
+        context: "server",
+        access: "public",
+        optional: true,
+      }),
     },
   },
 });

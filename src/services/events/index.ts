@@ -5,8 +5,18 @@ import type {
 } from "@/models/events";
 import { EVENTS_API_URL } from "astro:env/server";
 
+function getBaseUrl(): string {
+  if (!EVENTS_API_URL) {
+    throw new Error(
+      "EVENTS_API_URL is not configured. Set it in your .env file or Cloudflare environment.",
+    );
+  }
+
+  return EVENTS_API_URL;
+}
+
 export async function getEvents(status: EventStatus): Promise<SportsResponse> {
-  const baseUrl = EVENTS_API_URL;
+  const baseUrl = getBaseUrl();
   const response = await fetch(
     `${baseUrl}/sports?category=Futebol&status=${status}`,
   );
@@ -16,7 +26,7 @@ export async function getEvents(status: EventStatus): Promise<SportsResponse> {
 }
 
 export async function getEventById(id: string): Promise<SportByIdResponse> {
-  const baseUrl = EVENTS_API_URL;
+  const baseUrl = getBaseUrl();
   const response = await fetch(`${baseUrl}/sports/${id}`);
 
   const data = await response.json();
