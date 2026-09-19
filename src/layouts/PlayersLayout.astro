@@ -7,7 +7,25 @@ const { embeds } = Astro.props;
 ---
 <PageLayout removePadding>
   <slot />
-  {embeds.length ? <div class="tabs tabs-box min-h-[70vh]">
+  {embeds.length ? <div class="tabs tabs-box min-h-[70vh]" data-player-tabs>
     {embeds.map((embed, index) => <PlayerTabFragment embed={embed} index={index} />)}
   </div> : <p class="p-4">Nenhum player disponível para esta transmissão.</p>}
 </PageLayout>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-player-tabs]").forEach(group => {
+    group.addEventListener("change", event => {
+      const selected = event.target;
+      if (!(selected instanceof HTMLInputElement) || selected.type !== "radio" || !selected.checked) return;
+      const activeFrame = selected.nextElementSibling?.querySelector<HTMLIFrameElement>("iframe[data-player-src]");
+      group.querySelectorAll<HTMLIFrameElement>("iframe[data-player-src]").forEach(frame => {
+        if (frame === activeFrame) {
+          const src = frame.dataset.playerSrc;
+          if (src && frame.getAttribute("src") !== src) frame.src = src;
+        } else {
+          frame.removeAttribute("src");
+        }
+      });
+    });
+  });
+</script>

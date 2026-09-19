@@ -30,6 +30,11 @@ na página e IDs inexistentes retornam 404. Programação vencida não aparece c
 programação atual. Os players usam iframes sem sandbox para teste de reprodução e anúncios;
 a disponibilidade de vídeo e a compatibilidade dependem do provedor.
 
+O primeiro iframe carrega imediatamente, com permissão de autoplay. Ao trocar
+de aba, o iframe anterior é descarregado e a fonte selecionada é carregada.
+O início automático do vídeo depende do provedor e da política do navegador;
+o site não controla o botão Play nem o áudio de iframes de outros domínios.
+
 ## Cloudflare
 
 Use Workers, branch `FilipeGmartins-NewTV-Sports`, comando de build `pnpm build`
