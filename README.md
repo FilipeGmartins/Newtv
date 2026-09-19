@@ -27,7 +27,7 @@ O catálogo fixo e a rota de proxy antigos foram removidos. Os dados são consul
 no servidor durante a navegação, com timeout de 10 segundos, sem chamadas à API
 no build. Não é necessário configurar EVENTS_API_URL. Falhas da API são exibidas
 na página e IDs inexistentes retornam 404. Programação vencida não aparece como
-programação atual. Os players continuam em iframes com bloqueio de pop-ups;
+programação atual. Os players usam iframes sem sandbox para teste de reprodução e anúncios;
 a disponibilidade de vídeo e a compatibilidade dependem do provedor.
 
 ## Cloudflare
