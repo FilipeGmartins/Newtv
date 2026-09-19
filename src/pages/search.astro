@@ -1,0 +1,24 @@
+---
+import MainPageLayout from "@layouts/MainPageLayout.astro";
+import SearchForm from "@components/SearchForm.astro";
+import ChannelsGrid from "@components/ChannelsGrid.astro";
+import GridItem from "@components/GridItem.astro";
+import { search, type SearchResults } from "@/services/rei";
+export const prerender = false;
+const query = (Astro.url.searchParams.get("q") ?? "").trim().slice(0, 200);
+let results: SearchResults = { channels: [], events: [] };
+let failed = false;
+try { results = await search(query); } catch { failed = true; Astro.response.status = 503; }
+---
+<MainPageLayout>
+  <h1 class="text-2xl font-bold mb-4">Busca</h1>
+  <SearchForm query={query} />
+  {failed ? <p role="alert">Não foi possível realizar a busca. Tente novamente em instantes.</p> : query ? <>
+    <h2 class="text-xl font-bold mb-4">Canais</h2><ChannelsGrid channels={results.channels} />
+    <h2 class="text-xl font-bold my-4">Eventos</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {results.events.map(event => <GridItem title={event.title} description={event.description} imageSrc={event.poster} eventStatus={event.status} playersCount={event.embeds?.length ?? 0} href={`/live/${encodeURIComponent(event.id)}`} />)}
+    </div>
+    {results.events.length === 0 && <p>Nenhum evento encontrado.</p>}
+  </> : <p>Digite um canal, time ou esporte para buscar.</p>}
+</MainPageLayout>

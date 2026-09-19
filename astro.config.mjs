@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig, envField } from "astro/config";
+import { defineConfig } from "astro/config";
 
 import tailwindcss from "@tailwindcss/vite";
 
@@ -16,14 +16,5 @@ export default defineConfig({
   },
   image: {
     remotePatterns: [{ protocol: "https" }],
-  },
-  env: {
-    schema: {
-      EVENTS_API_URL: envField.string({
-        context: "server",
-        access: "public",
-        optional: true,
-      }),
-    },
   },
 });

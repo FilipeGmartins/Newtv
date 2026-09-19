@@ -1,58 +1,12 @@
 ---
-import type { ProxiedEmbed, RawEmbed } from "@/models/embeds";
-
-type ProxyEmbedPlayer = {
-    useProxy: true;
-    embed: ProxiedEmbed;
-    proxyBaseUrl: string;
-};
-
-type RawEmbedPlayer = {
-    useProxy: false;
-    embed: RawEmbed;
-};
-
-type Props = (ProxyEmbedPlayer | RawEmbedPlayer) & {
-    index: number;
-    enableSandbox?: boolean;
-};
-
-const props = Astro.props;
-const { embed, index, enableSandbox = true } = props;
-
-const useProxy = typeof props.useProxy === "boolean" && props.useProxy;
-
-const proxyBaseUrl = useProxy ? props.proxyBaseUrl : undefined;
-const resolvedProxyEmbed = useProxy ? props.embed : undefined;
-const resolvedEmbedUrl = !useProxy ? props.embed.url : undefined;
-
-const src =
-    useProxy && resolvedProxyEmbed
-        ? `${proxyBaseUrl}/${resolvedProxyEmbed.slug}/${resolvedProxyEmbed.index}`
-        : resolvedEmbedUrl;
+import type { RawEmbed } from "@/models/embeds";
+interface Props { embed: RawEmbed; index: number }
+const { embed, index } = Astro.props;
 const title = `Player ${index + 1} - ${embed.source}`;
 ---
-
 <Fragment>
-    <input
-        type="radio"
-        name="channel-tab"
-        class="tab"
-        aria-label={title}
-        checked={index === 0}
-    />
-    <div class="tab-content bg-base-100 border-base-300">
-        <iframe
-            src={src}
-            allow="autoplay; fullscreen; encrypted-media"
-            allowfullscreen
-            class="size-full"
-            title={title}
-            loading="lazy"
-            referrerpolicy="no-referrer"
-            sandbox={enableSandbox
-                ? "allow-same-origin allow-scripts allow-forms"
-                : undefined}
-            style="border: none;"></iframe>
-    </div>
+  <input type="radio" name="channel-tab" class="tab" aria-label={title} checked={index === 0} />
+  <div class="tab-content bg-base-100 border-base-300">
+    <iframe src={embed.url} title={title} class="w-full h-[70vh]" allow="autoplay; fullscreen; encrypted-media" allowfullscreen loading="lazy" referrerpolicy="no-referrer" sandbox="allow-same-origin allow-scripts allow-forms" style="border: none;"></iframe>
+  </div>
 </Fragment>

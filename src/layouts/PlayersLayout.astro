@@ -1,47 +1,13 @@
 ---
-import type { ProxiedEmbed, RawEmbed } from "@/models/embeds";
+import type { RawEmbed } from "@/models/embeds";
 import PageLayout from "./PageLayout.astro";
 import PlayerTabFragment from "@components/PlayerTabFragment.astro";
-
-interface Props {
-    embeds: ProxiedEmbed[] | RawEmbed[];
-    enableSandbox?: boolean;
-}
-
-const proxyBaseUrl = "/api/proxy";
-
-function isRawEmbed(embed: ProxiedEmbed | RawEmbed): embed is RawEmbed {
-    return "url" in embed;
-}
-
-const { embeds, enableSandbox = true } = Astro.props as Props;
+interface Props { embeds: RawEmbed[] }
+const { embeds } = Astro.props;
 ---
-
 <PageLayout removePadding>
-    <div class="tabs tabs-box h-screen">
-        {
-            embeds.map((player, index) => {
-                if (isRawEmbed(player)) {
-                    return (
-                        <PlayerTabFragment
-                            index={index}
-                            useProxy={false}
-                            embed={player}
-                            enableSandbox={enableSandbox}
-                        />
-                    );
-                }
-
-                return (
-                    <PlayerTabFragment
-                        useProxy={true}
-                        embed={player}
-                        index={index}
-                        proxyBaseUrl={proxyBaseUrl}
-                        enableSandbox={enableSandbox}
-                    />
-                );
-            })
-        }
-    </div>
+  <slot />
+  {embeds.length ? <div class="tabs tabs-box min-h-[70vh]">
+    {embeds.map((embed, index) => <PlayerTabFragment embed={embed} index={index} />)}
+  </div> : <p class="p-4">Nenhum player disponível para esta transmissão.</p>}
 </PageLayout>

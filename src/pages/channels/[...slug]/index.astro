@@ -1,19 +1,16 @@
 ---
 import PlayersLayout from "@/layouts/PlayersLayout.astro";
-import type { GetStaticPaths } from "astro";
-import { getCollection } from "astro:content";
-
-export const getStaticPaths = (async () => {
-    const channels = await getCollection("channels");
-
-    return channels.map((channel) => ({
-        params: { slug: channel.data.slug },
-        props: { channel },
-    }));
-}) satisfies GetStaticPaths;
-
-const { channel } = Astro.props;
-const { players } = channel.data;
+import PageLayout from "@/layouts/PageLayout.astro";
+import ChannelEPG from "@/components/ChannelEPG.astro";
+import { getChannel, playableEmbeds, type Channel } from "@/services/rei";
+export const prerender = false;
+let channel: Channel | undefined;
+let failed = false;
+try { channel = await getChannel(Astro.params.slug ?? ""); } catch { failed = true; }
+if (failed) Astro.response.status = 503;
+else if (!channel) Astro.response.status = 404;
+const embeds = channel ? playableEmbeds(channel.embeds) : [];
 ---
-
-<PlayersLayout embeds={players} />
+{channel ? <PlayersLayout embeds={embeds}>
+  <div class="p-4"><a class="link" href="/channels">Voltar aos canais</a><h1 class="text-2xl font-bold">{channel.name}</h1><ChannelEPG epg={channel.epg} /></div>
+</PlayersLayout> : <PageLayout><p role="alert">{failed ? "Não foi possível carregar o canal. Tente novamente em instantes." : "Canal não encontrado."}</p><a class="link" href="/channels">Voltar aos canais</a></PageLayout>}

@@ -1,0 +1,13 @@
+---
+import type { Channel } from "@/services/rei";
+interface Props { epg?: Channel["epg"] }
+const { epg } = Astro.props;
+const now = Date.now() / 1000;
+const current = epg?.current;
+const next = epg?.next;
+const isCurrent = current && current.start_time <= now && current.end_time > now;
+---
+<section class="text-sm space-y-1" aria-label="Programação">
+  {isCurrent ? <p><strong>Agora:</strong> {current.title}</p> : <p>Programação atual indisponível.</p>}
+  {next && next.start_time > now && <p><strong>A seguir:</strong> {next.title} — {next.formatted_time}</p>}
+</section>

@@ -1,26 +1,13 @@
 ---
 import PlayersLayout from "@layouts/PlayersLayout.astro";
-import { getEventById } from "@/services/events";
-import type { RawEmbed } from "@/models/embeds";
-
+import PageLayout from "@layouts/PageLayout.astro";
+import { getSport, playableEmbeds } from "@/services/rei";
+import type { SportGame } from "@/models/events";
 export const prerender = false;
-
-const { id } = Astro.params;
-if (!id) {
-    Astro.rewrite("/games");
-    return;
-}
-
-const event = await getEventById(id);
-const { data } = event;
-const { embeds: players } = data;
-
-const embeds: RawEmbed[] = players.map((player) => {
-    return {
-        url: player.embed_url,
-        source: player.provider,
-    };
-});
+let event: SportGame | undefined;
+let failed = false;
+try { event = await getSport(Astro.params.id ?? ""); } catch { failed = true; }
+if (failed) Astro.response.status = 503;
+else if (!event) Astro.response.status = 404;
 ---
-
-<PlayersLayout embeds={embeds} enableSandbox={false} />
+{event ? <PlayersLayout embeds={playableEmbeds(event.embeds)}><h1 class="p-4 text-2xl font-bold">{event.title}</h1></PlayersLayout> : <PageLayout><p role="alert">{failed ? "Não foi possível carregar o evento. Tente novamente em instantes." : "Evento não encontrado."}</p><a href="/games" class="link">Voltar aos jogos</a></PageLayout>}

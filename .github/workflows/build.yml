@@ -29,5 +29,7 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Build Astro
         run: pnpm build
+      - name: Test API integration
+        run: node --test tests/rei.test.mjs
       - name: Validate Cloudflare Worker package
         run: pnpm exec wrangler deploy --dry-run

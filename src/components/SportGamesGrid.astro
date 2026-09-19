@@ -2,6 +2,7 @@
 import type { EventStatus } from "@/models/events";
 import { getEvents } from "@/services/events";
 import GridItem from "./GridItem.astro";
+import type { SportGame } from "@/models/events";
 
 interface Props {
     status: EventStatus;
@@ -10,7 +11,9 @@ interface Props {
 const { status } = Astro.props;
 const liveEventsBaseUrl = "/live";
 
-const { data: games } = await getEvents(status);
+let games: SportGame[] = [];
+let failed = false;
+try { games = (await getEvents(status)).data; } catch { failed = true; }
 const isEmpty = games.length === 0;
 ---
 
@@ -34,10 +37,10 @@ const isEmpty = games.length === 0;
                     startDate={start_time}
                     playersCount={embeds.length}
                     imageSrc={poster}
-                    href={`${liveEventsBaseUrl}/${id}`}
+                    href={`${liveEventsBaseUrl}/${encodeURIComponent(id)}`}
                 />
             );
         })
     }
-    {isEmpty && <p>Nenhum jogo encontrado.</p>}
+    {failed ? <p role="alert">Não foi possível carregar os jogos. Tente novamente em instantes.</p> : isEmpty && <p>Nenhum jogo encontrado.</p>}
 </div>

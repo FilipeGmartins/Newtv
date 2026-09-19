@@ -1,0 +1,8 @@
+---
+interface Props { query?: string }
+const { query = "" } = Astro.props;
+---
+<form action="/search" method="get" class="flex gap-2 mb-6">
+  <label class="grow"><span class="sr-only">Buscar canais e eventos</span><input class="input input-bordered w-full" type="search" name="q" value={query} placeholder="Buscar canais e eventos" maxlength="200" required /></label>
+  <button class="btn btn-primary" type="submit">Buscar</button>
+</form>

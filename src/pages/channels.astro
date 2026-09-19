@@ -1,8 +1,15 @@
 ---
 import MainPageLayout from "@layouts/MainPageLayout.astro";
 import ChannelsGrid from "@components/ChannelsGrid.astro";
+import SearchForm from "@components/SearchForm.astro";
+import { getChannels, type Channel } from "@/services/rei";
+export const prerender = false;
+let channels: Channel[] = [];
+let failed = false;
+try { channels = await getChannels(); } catch { failed = true; Astro.response.status = 503; }
 ---
-
-<MainPageLayout selectedTab="channels">
-    <ChannelsGrid />
+<MainPageLayout>
+  <h1 class="text-2xl font-bold mb-4">Canais</h1>
+  <SearchForm />
+  {failed ? <p role="alert">Não foi possível carregar os canais. Tente novamente em instantes.</p> : <ChannelsGrid channels={channels} />}
 </MainPageLayout>
