@@ -75,3 +75,16 @@ All commands are run from the root of the project, from a terminal:
 ## 👀 Want to learn more?
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+
+## Catálogo de canais
+
+O catálogo em `src/content/channels.json` inclui 140 entradas não adultas do
+Embed Canais TV, importadas em 19/09/2026 a partir de
+https://apisinalpublico.vercel.app/canais.json. Os links antigos foram preservados,
+e a ESPN foi mesclada sem duplicar sua fonte. O total é de 141 canais e 146 players.
+O catálogo é local; alterações do provedor não são sincronizadas automaticamente.
+Os canais 24H adultos do catálogo de origem não foram importados.
+
+As páginas usam iframes diretos. A rota alternativa `/api/proxy/:channel/:id`
+é executada somente quando solicitada, com timeout de 10 segundos, sem consultar
+os players externos durante o build. Compilar não verifica a reprodução dos vídeos.

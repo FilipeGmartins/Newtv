@@ -1,35 +1,29 @@
-import type { APIRoute, GetStaticPaths } from "astro";
+import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 
-export const GET: APIRoute = async ({ props }) => {
-  const { url } = props;
+export const prerender = false;
+
+export const GET: APIRoute = async ({ params }) => {
+  const channels = await getCollection("channels");
+  const channel = channels.find(({ data }) => data.slug === params.channel);
+  const id = params.id ?? "";
+  if (!channel || !/^[1-9]\d*$/.test(id)) {
+    return new Response("Player not found", { status: 404 });
+  }
+  const player = channel.data.players[Number(id) - 1];
+  if (!player) return new Response("Player not found", { status: 404 });
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(player.url, {
+      signal: AbortSignal.timeout(10_000),
+    });
     return new Response(response.body, {
       status: response.status,
       headers: {
         "Content-Type": response.headers.get("Content-Type") || "text/html",
       },
     });
-  } catch (error) {
-    if (error instanceof Error)
-      return new Response("Proxy error: " + error.message, { status: 500 });
-    return new Response("Proxy error", { status: 500 });
+  } catch {
+    return new Response("Player temporarily unavailable", { status: 502 });
   }
 };
-
-export async function getStaticPaths() {
-  const channels = await getCollection("channels");
-
-  const result = channels.map(({ data }) => {
-    const channel = data.slug;
-
-    return data.players.map(({ url, source }, index) => ({
-      params: { channel, id: String(index + 1) },
-      props: { url, source },
-    }));
-  });
-
-  return result.flat();
-}
