@@ -1,4 +1,38 @@
-# Astro Starter Kit: Minimal
+# New TV
+
+## Build e Cloudflare
+
+Use Node.js 24.14.1 (definido em `.node-version`) e pnpm 11.19.0
+(definido em `package.json`).
+
+```sh
+pnpm install --frozen-lockfile
+pnpm build
+pnpm exec wrangler deploy --dry-run
+```
+
+O workflow `.github/workflows/build.yml` executa essas verificações em pushes,
+pull requests e execuções manuais. O dry-run não publica o site nem exige
+credenciais da Cloudflare.
+
+O projeto usa Astro 6 com `@astrojs/cloudflare` 13 e deve ser publicado no
+**Cloudflare Workers**. O adaptador não gera um site compatível com GitHub Pages
+ou Cloudflare Pages, pois existem rotas executadas no servidor.
+
+No Workers Builds, selecione a branch `FilipeGmartins-NewTV-Sports`, use
+`pnpm build` como comando de build e `pnpm exec wrangler deploy` como comando
+de deploy. Se o projeto ainda estiver no Pages, será necessário configurar
+um Worker para esse repositório. Em GitHub Settings → Pages, desative a
+publicação antiga por branch para evitar execuções automáticas do Jekyll.
+
+Configure `EVENTS_API_URL` no ambiente de build para as páginas de jogos:
+essa variável é declarada como pública de servidor em `astro:env` e é
+incorporada ao build. Ela não é necessária para compilar, mas é necessária
+para consultar eventos em execução.
+
+Referência: [adaptador Cloudflare do Astro](https://docs.astro.build/en/guides/integrations-guide/cloudflare/).
+
+## Referência do template original
 
 ```sh
 pnpm create astro@latest -- --template minimal
