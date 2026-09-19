@@ -8,6 +8,10 @@
     "imageUrl": "https://logos-world.net/wp-content/uploads/2020/12/ESPN-Logo-1985-present.jpg",
     "players": [
       {
+        "url": "https://sinalpublicoetv.vercel.app/?id=espn",
+        "source": "Embed Canais TV"
+      },
+      {
         "url": "https://embedcanaisdetv.xyz/e/index.php?canal=espn",
         "source": "embedcanaisdetv"
       },

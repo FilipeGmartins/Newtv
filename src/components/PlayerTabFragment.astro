@@ -30,7 +30,7 @@ const src =
     useProxy && resolvedProxyEmbed
         ? `${proxyBaseUrl}/${resolvedProxyEmbed.slug}/${resolvedProxyEmbed.index}`
         : resolvedEmbedUrl;
-const title = `${embed.source} - Player ${index}`;
+const title = `Player ${index + 1} - ${embed.source}`;
 ---
 
 <Fragment>
@@ -38,7 +38,8 @@ const title = `${embed.source} - Player ${index}`;
         type="radio"
         name="channel-tab"
         class="tab"
-        aria-label={`Player ${index}`}
+        aria-label={title}
+        checked={index === 0}
     />
     <div class="tab-content bg-base-100 border-base-300">
         <iframe
