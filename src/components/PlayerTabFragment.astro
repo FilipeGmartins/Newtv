@@ -45,12 +45,13 @@ const title = `Player ${index + 1} - ${embed.source}`;
         <iframe
             src={src}
             allow="autoplay; fullscreen; encrypted-media"
+            allowfullscreen
             class="size-full"
             title={title}
             loading="lazy"
             referrerpolicy="no-referrer"
             sandbox={enableSandbox
-                ? "allow-same-origin allow-scripts allow-popups allow-forms allow-popups-to-escape-sandbox"
+                ? "allow-same-origin allow-scripts allow-forms"
                 : undefined}
             style="border: none;"></iframe>
     </div>
